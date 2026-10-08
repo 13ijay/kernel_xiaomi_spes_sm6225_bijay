@@ -1,1 +1,23 @@
 
+name: Inspect spes Kernel Source
+
+on:
+  workflow_dispatch:
+
+jobs:
+  inspect:
+    runs-on: ubuntu-22.04
+
+    steps:
+      - name: Checkout kernel source
+        uses: actions/checkout@v4
+        with:
+          ref: 13.0.0-perf
+          fetch-depth: 1
+
+      - name: Show kernel version
+        run: |
+          grep -E '^(VERSION|PATCHLEVEL|SUBLEVEL|EXTRAVERSION|NAME) =' Makefile
+          echo "Source checkout completed."
+          git log -1 --oneline
+          
